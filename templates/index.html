@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EXIF Location Plotter</title>
+    <style>
+      /* Add some basic styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      /* Style the navigation bar */
+      nav {
+        background-color: #FDF7FA;
+        padding: 10px;
+        text-align: left;
+      }
+      nav h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      /* Style the file upload form */
+      form {
+        flex: 1;
+        padding: 20px;
+        text-align: center;
+      }
+      .image-preview {
+        width: min-content;
+        height: min-content;
+        object-fit: cover;
+        border-radius: 10px;
+        margin: 20px;
+      }
+      /* Style the map container */
+      .map-container {
+        flex: 1;
+        height: 500px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Add the navigation bar -->
+    <nav>
+      <h1>Image Location Finder 📌</h1>
+    </nav>
+    <div class="container">
+      <!-- Add the file upload form -->
+      <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="image">
+        
+        <input type="submit" value="Upload">
+      </form>
+      {% if filename %}
+      <div>
+        <img src="{{ url_for('display_image', filename=filename) }}">
+      </div>
+    {% endif %}
+  
+      {% if map_html %}
+        <!-- Add the map container -->
+        <div class="map-container">
+          {{ map_html|safe }}
+        </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
