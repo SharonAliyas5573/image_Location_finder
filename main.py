@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request
 import piexif
 import folium
+import re   
 
 app = Flask(__name__)
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         # Get the uploaded image
-        image_file = request.files["image"]
+        image_file = request.files["dropzone-file"]
         exif_dict = piexif.load(image_file.read())
 
         # Extract the geo location from the EXIF data
@@ -23,6 +25,7 @@ def index():
         map_location = folium.Map(location=[latitude, longitude], zoom_start=13)
         folium.Marker(location=[latitude, longitude]).add_to(map_location)
         map_html = map_location.get_root().render()
+       
 
         return render_template("index.html", map_html=map_html)
 
