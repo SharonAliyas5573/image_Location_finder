@@ -27,7 +27,7 @@ def index():
         map_html = map_location.get_root().render()
        
 
-        return render_template("index.html", map_html=map_html)
+        return render_template("map.html", map_html=map_html)
 
     return render_template("index.html")
 
