@@ -9,27 +9,37 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        # Get the uploaded image
-        image_file = request.files["dropzone-file"]
-        exif_dict = piexif.load(image_file.read())
+        try:
+            # Get the uploaded image
+            image_file = request.files["dropzone-file"]
+            exif_dict = piexif.load(image_file.read())
 
-        # Extract the geo location from the EXIF data
-        latitude = exif_dict["GPS"][piexif.GPSIFD.GPSLatitude]
-        longitude = exif_dict["GPS"][piexif.GPSIFD.GPSLongitude]
+            # Check if the EXIF data contains a location
+            if "GPS" not in exif_dict:
+                return "Error: No location information found in the EXIF data of the uploaded image."
 
-        # Convert the geo location to decimal degrees
-        latitude = (latitude[0][0] / latitude[0][1] +latitude[1][0] / latitude[1][1] / 60 +latitude[2][0] / latitude[2][1] / 3600)
-        longitude = (longitude[0][0] / longitude[0][1] +longitude[1][0] / longitude[1][1] / 60 +longitude[2][0] / longitude[2][1] / 3600)
+            # Extract the geo location from the EXIF data
+            latitude = exif_dict["GPS"][piexif.GPSIFD.GPSLatitude]
+            longitude = exif_dict["GPS"][piexif.GPSIFD.GPSLongitude]
 
-        # Plot the geo location on a map
-        map_location = folium.Map(location=[latitude, longitude], zoom_start=13)
-        folium.Marker(location=[latitude, longitude]).add_to(map_location)
-        map_html = map_location.get_root().render()
-       
+            # Convert the geo location to decimal degrees
+            latitude = (latitude[0][0] / latitude[0][1] +latitude[1][0] / latitude[1][1] / 60 +latitude[2][0] / latitude[2][1] / 3600)
+            longitude = (longitude[0][0] / longitude[0][1] +longitude[1][0] / longitude[1][1] / 60 +longitude[2][0] / longitude[2][1] / 3600)
 
-        return render_template("map.html", map_html=map_html)
+            # Plot the geo location on a map
+            map_location = folium.Map(location=[latitude, longitude], zoom_start=13)
+            folium.Marker(location=[latitude, longitude]).add_to(map_location)
+            map_html = map_location.get_root().render()
+
+            return render_template("index.html", map_html=map_html)
+        except Exception as e:
+            return "Error: No image was uploaded. Please upload an image and try again."
 
     return render_template("index.html")
 
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+
+
