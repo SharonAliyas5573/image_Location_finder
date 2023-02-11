@@ -1,4 +1,4 @@
-# image_Location_finderGEOSNAP
+# GEOSNAP (image_Location_finder)
 
 GEOSNAP is a web application that plots the geo-location of an image on a map. The application is built using Flask, a popular Python web framework, and uses the Folium library to create the map and the Piexif library to extract the geo-location information from the image's EXIF data.
 Getting Started
