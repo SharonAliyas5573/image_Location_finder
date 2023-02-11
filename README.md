@@ -8,19 +8,19 @@ Prerequisites
 
 The following libraries must be installed in order to run the GEOSNAP application:
 
-    Flask
-    Folium
-    Piexif
+- Flask
+- Folium
+- Piexif
 
 You can install the libraries by running the following command in your terminal:
 
-pip install flask folium piexif
+    pip install flask folium piexif
 
 Running the Application
 
 To run the GEOSNAP application, simply run the following command in your terminal:
 
-python app.py
+    python app.py
 
 This will start the Flask development server and you can access the application at http://127.0.0.1:5000/ in your web browser.
 
@@ -29,7 +29,8 @@ Built With
     Flask - The web framework used
     Folium - The library used to create the map
     Piexif - The library used to extract the geo-location information from the image's EXIF data
+    Tailwind - The Library used to Style the web page
 
 
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License 
